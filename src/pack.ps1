@@ -17,8 +17,8 @@ Import-Module $PSScriptRoot\..\Invoke-Process.psm1
 
 if ($clearOutput)
 {
-    $dir = Resolve-Path -Path ($output -ne "" ? $output : "../artifacts/src/package/release")
-    $items = Get-ChildItem -Path $dir -Filter "Noctilocus*nupkg"
+    $dir = Resolve-Path -Path ($output -ne "" ? $output : "../artifacts")
+    $items = Get-ChildItem -Path $dir -Filter "Translate*nupkg"
     if ($items.Length -gt 0)
     {
         Write-Host "Removing $($items.Length) items (.*nupkg) at '$dir'"
@@ -26,10 +26,7 @@ if ($clearOutput)
     }
 }
 
-$projects = @(
-    "$PSScriptRoot/Noctilocus/"
-    "$PSScriptRoot/Noctilocus.SmartFormat/"
-)
+$projects = Get-ChildItem -Include "*.csproj" -Recurse -Name | Resolve-Path -Relative
 
 $cmd = "dotnet", "pack"
 $arguments = "-c", "Release"

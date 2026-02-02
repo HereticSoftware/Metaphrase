@@ -1,13 +1,13 @@
-# Noctilocus
+# Translate
 
-[![Build Action](https://github.com/Raven-Tail/Noctilocus/actions/workflows/build.yaml/badge.svg)](https://github.com/Raven-Tail/Noctilocus/actions/workflows/build.yaml)
-[![Publish Action](https://github.com/Raven-Tail/Noctilocus/actions/workflows/publish.yaml/badge.svg)](https://github.com/Raven-Tail/Noctilocus/actions/workflows/publish.yaml)
-[![License](https://img.shields.io/github/license/raven-tail/Noctilocus?style=flat)](https://github.com/raven-tail/Noctilocus/blob/main/LICENSE)
+[![Build Action](https://github.com/HereticSoftware/Translate/actions/workflows/build.yaml/badge.svg)](https://github.com/HereticSoftware/Translate/actions/workflows/build.yaml)
+[![Publish Action](https://github.com/HereticSoftware/Translate/actions/workflows/publish.yaml/badge.svg)](https://github.com/HereticSoftware/Translate/actions/workflows/publish.yaml)
+[![License](https://img.shields.io/github/license/HereticSoftware/Translate?style=flat)](https://github.com/HereticSoftware/Translate/blob/main/LICENSE)
 [![.NET 8](https://img.shields.io/badge/.NET%208-%23512bd4?style=flat)](https://dotnet.microsoft.com/)
 [![.NET 9](https://img.shields.io/badge/.NET%209-%23512bd4?style=flat)](https://dotnet.microsoft.com/)
-[![Downloads](https://img.shields.io/nuget/dt/Noctilocus?style=flat)](https://www.nuget.org/packages/Noctilocus.Contracts/)
+[![Downloads](https://img.shields.io/nuget/dt/Translate?style=flat)](https://www.nuget.org/packages/Translate.Contracts/)
 
-A C# port of the [ngx-translate](https://github.com/ngx-translate/core). The port is not one to one and also aims to be more C# friendly where possible.
+A C# port of the [ngx-Translate](https://github.com/ngx-Translate/core). The port is not one to one and also aims to be more C# friendly where possible.
 
 The library provides you with a `TranslateService` which combined with a `TranslateLoader` (HttpLoader built in) enables you to load, compile and display your translations using formatting with keys. For much stronger formatting there exists a supporting package that uses the awesome [SmartFormat](https://github.com/axuno/SmartFormat/) package.
 
@@ -15,28 +15,28 @@ The library provides you with a `TranslateService` which combined with a `Transl
 
 | Package | Stable | Pre |
 |:--|:--|:--|
-| **Noctilocus** | [![Noctilocus](https://img.shields.io/nuget/v/Noctilocus)](https://www.nuget.org/packages/Noctilocus) | [![Noctilocus](https://img.shields.io/nuget/vpre/Noctilocus)](https://www.nuget.org/packages/Noctilocus) |
-| **Noctilocus.SmartFormat** | [![Noctilocus.SmartFormat](https://img.shields.io/nuget/v/Noctilocus.SmartFormat)](https://www.nuget.org/packages/Noctilocus.SmartFormat) | [![Noctilocus.SmartFormat](https://img.shields.io/nuget/vpre/Noctilocus.SmartFormat)](https://www.nuget.org/packages/Noctilocus.SmartFormat) |
+| **Translate** | [![Translate](https://img.shields.io/nuget/v/Translate)](https://www.nuget.org/packages/Translate) | [![Translate](https://img.shields.io/nuget/vpre/Translate)](https://www.nuget.org/packages/Translate) |
+| **Translate.SmartFormat** | [![Translate.SmartFormat](https://img.shields.io/nuget/v/Translate.SmartFormat)](https://www.nuget.org/packages/Translate.SmartFormat) | [![Translate.SmartFormat](https://img.shields.io/nuget/vpre/Translate.SmartFormat)](https://www.nuget.org/packages/Translate.SmartFormat) |
 
 # Usage
 
 Description
-- Noctilocus
+- Translate
     - Contains the `abstractions`, `defaults`, `primitives`, `http loader` and the `service`.
-- Noctilocus.SmartFormat
+- Translate.SmartFormat
     - Contains the `SmartFormatParser`.
 
 Installation:
-- `Noctilocus` in projects that you want to use the service or any of the primitives.
-- `Noctilocus.SmartFormat` in projects that use the service and you want to replace the default parser.
+- `Translate` in projects that you want to use the service or any of the primitives.
+- `Translate.SmartFormat` in projects that use the service and you want to replace the default parser.
 
 # Getting Started
 
-The section will describe how to get started with Noctilocus in a `Blazor Wasm` using the `HttpLoader` storing the language files at `wwwroot/i18n`.
+The section will describe how to get started with Translate in a `Blazor Wasm` using the `HttpLoader` storing the language files at `wwwroot/i18n`.
 
-1. Add the `Noctilocus` package.
+1. Add the `Translate` package.
 ```console
-dotnet add package Noctilocus
+dotnet add package Translate
 ```
 2. Add the appropriate services to the service provider.
 ```csharp
@@ -50,19 +50,19 @@ services.AddScoped<TranslateService>(); // This will use the default parser
 
 For the tanslation `key: hello` and `value: Hello` you can do:
 ```csharp
-translate.Instant("hello") // prints "Hello"
-translate | "hello" // prints "Hello"
+Translate.Instant("hello") // prints "Hello"
+Translate | "hello" // prints "Hello"
 ```
 
 For the translation `key: welcome`, `value: Welcome {user}!` and `param: user`.
 ```csharp
-translate.Instant("hello", new { user = "panos" }) // prints "Welcome panos"!
-translate | "hello" | new { user = "panos" } // prints "Welcome panos"!
+Translate.Instant("hello", new { user = "panos" }) // prints "Welcome panos"!
+Translate | "hello" | new { user = "panos" } // prints "Welcome panos"!
 ```
 
 # Contributing
 
-For general contribution information you can read the [Raven Tail Contributing document](https://github.com/Raven-Tail/.github/blob/main/CONTRIBUTING.md).
+For general contribution information you can read the [Raven Tail Contributing document](https://github.com/HereticSoftware/.github/blob/main/CONTRIBUTING.md).
 
 ## Local Development
 

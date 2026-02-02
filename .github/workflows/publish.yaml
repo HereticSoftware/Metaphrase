@@ -12,8 +12,10 @@ on:
     - test/**
 jobs:
   pipeline:
-    uses: Raven-Tail/Noctilocus/.github/workflows/_.yaml@main
+    uses: HereticSoftware/Translate/.github/workflows/_.yaml@main
+    permissions:
+      id-token: write
     with:
       publish: true
     secrets:
-      nuget-key: ${{ secrets.NUGET_API_KEY }}
+      nuget-user: ${{ secrets.NUGET_USER }}

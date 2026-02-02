@@ -1,8 +1,6 @@
 Import-Module $PSScriptRoot\..\Invoke-Process.psm1
 
-$projects = @(
-    "$PSScriptRoot/Noctilocus.Test/"
-)
+$projects = Get-ChildItem -Include "*.csproj" -Recurse -Name | Resolve-Path -Relative
 
 $cmd = "dotnet", "test"
 $arguments = "-c", "Release"
