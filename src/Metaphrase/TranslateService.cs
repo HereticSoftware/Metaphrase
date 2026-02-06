@@ -2,6 +2,7 @@
 using Metaphrase.Defaults;
 using Metaphrase.Primitives;
 using Metaphrase.Primitives.Events;
+using Metaphrase.Primitives.Internal;
 
 namespace Metaphrase;
 
@@ -16,7 +17,7 @@ public sealed class TranslateService
     private readonly TranslateCompiler compiler;
     private readonly TranslateServiceOptions options;
 
-    private readonly ConcurrentDictionary<string, TranslationLoader> translationsLoading = [];
+    private readonly ConcurrentLazyDictionary<string, TranslationLoader> translationsLoading = [];
 
     /// <summary>
     /// The default language to fallback when translations are missing in the current language.
@@ -199,9 +200,9 @@ public sealed class TranslateService
     /// <param name="lang">The language key to reset.</param>
     public void ResetLang(string lang)
     {
-        if (translationsLoading.TryRemove(lang, out var loader))
+        if (translationsLoading.TryRemove(lang, out var loader) && loader.IsValueCreated)
         {
-            loader.Cancel();
+            loader.Value.Dispose();
         }
         store.Languages.Remove(lang);
     }
@@ -281,7 +282,7 @@ public sealed class TranslateService
     /// <summary>
     /// Represents a loader for translations with cancellation support.
     /// </summary>
-    private readonly struct TranslationLoader
+    private readonly struct TranslationLoader : IDisposable
     {
         private readonly CancellationTokenSource cts = new();
 
@@ -303,6 +304,7 @@ public sealed class TranslateService
         public TranslationLoader(TranslateService service, string lang, bool merge)
         {
             Load = CreateDefer((service, lang), static state => state.service.loader.GetTranslation(state.lang))
+                .TakeUntil(cts.Token)
                 .Do((service, lang, merge), static (translations, state) =>
                 {
                     var (service, lang, merge) = state;
@@ -314,16 +316,14 @@ public sealed class TranslateService
                         service.store.Languages.Set(lang, translations);
                 })
                 .Replay()
-                .RefCount()
-                .TakeUntil(cts.Token);
+                .RefCount();
         }
 
-        /// <summary>
-        /// Cancels the loading of translations.
-        /// </summary>
-        public readonly void Cancel()
+        /// <inheritdoc/>
+        public void Dispose()
         {
             cts.Cancel();
+            cts.Dispose();
         }
     }
 

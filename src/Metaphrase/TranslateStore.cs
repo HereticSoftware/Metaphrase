@@ -1,6 +1,5 @@
 ﻿using Metaphrase.Primitives;
 using Metaphrase.Primitives.Events;
-using Metaphrase.Primitives.Internal;
 
 namespace Metaphrase;
 
@@ -10,8 +9,8 @@ namespace Metaphrase;
 /// <remarks>Language keys are compared using <see cref="StringComparer.OrdinalIgnoreCase"/></remarks>
 public sealed class TranslateStore : IDisposable
 {
-    private readonly SubjectWrapper<LanguageChangeEvent> onDefaultLangChange = new();
-    private readonly SubjectWrapper<LanguageChangeEvent> onLangChange = new();
+    private readonly Subject<LanguageChangeEvent> onDefaultLangChange = new();
+    private readonly Subject<LanguageChangeEvent> onLangChange = new();
 
     /// <summary>
     /// Initializes a new instance of the <see cref="TranslateStore"/> class with default values.
@@ -68,12 +67,12 @@ public sealed class TranslateStore : IDisposable
     /// <summary>
     /// Gets an observable to listen for default language change events.
     /// </summary>
-    public Observable<LanguageChangeEvent> OnDefaultLangChange => onDefaultLangChange.GetObservable();
+    public Observable<LanguageChangeEvent> OnDefaultLangChange => onDefaultLangChange.AsObservable();
 
     /// <summary>
     /// Gets an observable to listen for language change events.
     /// </summary>
-    public Observable<LanguageChangeEvent> OnLangChange => onLangChange.GetObservable();
+    public Observable<LanguageChangeEvent> OnLangChange => onLangChange.AsObservable();
 
     /// <summary>
     /// Gets an observable to listen for translation change events.
