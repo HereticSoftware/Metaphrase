@@ -98,9 +98,9 @@ public sealed class TranslateParserTests
         var (template, expected, parameters) = input;
 
         var actual = new TranslateString(template, parameters, parser).ToString();
-        await Assert.That(actual).IsEqualTo(expected);
+        await That(actual).IsEqualTo(expected);
 
         actual = (new TranslateString(template, null, parser) | parameters).ToString();
-        await Assert.That(actual).IsEqualTo(expected);
+        await That(actual).IsEqualTo(expected);
     }
 }

@@ -40,37 +40,41 @@ public sealed class TranslateServiceTests
         service.SetCurrentLang("en").Subscribe(); // Call 1 and 0 return
         service.ResetLang("en");
 
-        await Assert.That(loader.CallCount).IsEqualTo(1);
-        await Assert.That(loader.ReturnCount).IsEqualTo(0);
+        await That(loader.CallCount).IsEqualTo(1);
+        await That(loader.ReturnCount).IsEqualTo(0);
 
         service.SetCurrentLang("en").Subscribe(); // Call 2 and 1 return
         await Task.Delay(TimeSpan.FromMilliseconds(200));
 
-        await Assert.That(loader.CallCount).IsEqualTo(2);
-        await Assert.That(loader.ReturnCount).IsEqualTo(1);
+        await That(loader.CallCount).IsEqualTo(2);
+        await That(loader.ReturnCount).IsEqualTo(1);
 
         await service.SetCurrentLang("en").FirstAsync(); // Call 2 and 1 return
         await service.SetCurrentLang("en").FirstAsync(); // Call 2 and 1 return
 
-        await Assert.That(loader.CallCount).IsEqualTo(2);
-        await Assert.That(loader.ReturnCount).IsEqualTo(1);
+        await That(loader.CallCount).IsEqualTo(2);
+        await That(loader.ReturnCount).IsEqualTo(1);
 
-        await Assert.That(service.Langs.Count).IsEqualTo(1);
+        await That(service.Langs.Count).IsEqualTo(1);
     }
 
     [Test]
-    public async Task Load_Should_Be_Thread_Safe()
+    [Timeout(10_000)]
+    public async Task Load_Should_Be_Thread_Safe(CancellationToken cancellationToken)
     {
-        var loader = new CustomLoader(TimeSpan.FromMilliseconds(1));
+        var loader = new CustomLoader(TimeSpan.FromMilliseconds(100));
         var service = new TranslateService(loader: loader);
         var iterations = Enumerable.Range(1, 100);
 
-        await Parallel.ForEachAsync(iterations, async (i, ct) =>
+        await Parallel.ForEachAsync(iterations, cancellationToken, body: async (i, ct) =>
         {
-            await service.LoadTranslation("en").FirstAsync(cancellationToken: ct);
+            await service
+                .LoadTranslation("en")
+                .FirstAsync(ct)
+                .WaitAsync(TimeSpan.FromSeconds(5), ct);
         });
 
-        await Assert.That(loader.CallCount).IsEqualTo(1);
-        await Assert.That(loader.ReturnCount).IsEqualTo(1);
+        await That(loader.CallCount).IsEqualTo(1);
+        await That(loader.ReturnCount).IsEqualTo(1);
     }
 }

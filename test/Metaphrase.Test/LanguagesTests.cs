@@ -1,6 +1,4 @@
-﻿using Metaphrase.Primitives.Events;
-
-namespace Metaphrase.Test.Unit;
+﻿namespace Metaphrase.Test.Unit;
 
 public sealed class LanguagesTests
 {
@@ -29,9 +27,9 @@ public sealed class LanguagesTests
         foreach (var (l, k, v) in changes)
         {
             languages.Get(l)[k] = v;
-            await Assert.That(l).IsEqualTo(lastEvent?.Lang);
-            await Assert.That(k).IsEqualTo(lastEvent?.Key);
-            await Assert.That(v).IsEqualTo(lastEvent?.Translation);
+            await That(l).IsEqualTo(lastEvent?.Lang);
+            await That(k).IsEqualTo(lastEvent?.Key);
+            await That(v).IsEqualTo(lastEvent?.Translation);
         }
     }
 }

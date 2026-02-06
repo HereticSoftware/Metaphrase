@@ -1,6 +1,4 @@
-﻿using Metaphrase.Primitives.Events;
-
-namespace Metaphrase.Test.Unit;
+﻿namespace Metaphrase.Test.Unit;
 
 public sealed class TranslationsTests
 {
@@ -24,8 +22,8 @@ public sealed class TranslationsTests
         foreach (var (k, v) in changes)
         {
             translations[k] = v;
-            await Assert.That(k).IsEqualTo(lastEvent?.Key);
-            await Assert.That(v).IsEqualTo(lastEvent?.Translation);
+            await That(k).IsEqualTo(lastEvent?.Key);
+            await That(v).IsEqualTo(lastEvent?.Translation);
         }
     }
 }

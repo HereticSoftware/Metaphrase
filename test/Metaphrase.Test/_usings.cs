@@ -8,3 +8,6 @@ global using Metaphrase.Primitives.Events;
 global using System.Collections.Concurrent;
 global using System.Diagnostics.CodeAnalysis;
 global using System.Text;
+global using TUnit;
+global using TUnit.Assertions;
+global using static TUnit.Assertions.Assert;

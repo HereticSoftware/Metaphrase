@@ -28,8 +28,8 @@ public sealed class TranslateStringTests
         var str = new TranslateString(template, null, parser);
         var actual = str.ToString();
 
-        await Assert.That(parser.Parameters).IsNull();
-        await Assert.That(actual).IsEqualTo(expected);
+        await That(parser.Parameters).IsNull();
+        await That(actual).IsEqualTo(expected);
     }
 
     [Test]
@@ -43,7 +43,7 @@ public sealed class TranslateStringTests
         var str = new TranslateString(template, parameters, parser);
         var actual = str.ToString();
 
-        await Assert.That(parser.Parameters).IsNotNull();
-        await Assert.That(actual).IsEqualTo(expected);
+        await That(parser.Parameters).IsNotNull();
+        await That(actual).IsEqualTo(expected);
     }
 }
